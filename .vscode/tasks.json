@@ -7,9 +7,26 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/test/AdventOfCode2018.Tests/AdventOfCode2018.Tests.csproj"
+                "${workspaceFolder}\\test\\AdventOfCode2018.Tests\\AdventOfCode2018.Tests.csproj"
             ],
-            "problemMatcher": "$msCompile"
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "test",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "test",
+                "${workspaceFolder}\\test\\AdventOfCode2018.Tests\\AdventOfCode2018.Tests.csproj"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            }
         }
     ]
 }
