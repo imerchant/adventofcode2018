@@ -1,5 +1,3 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using AdventOfCode2018.Day02;
 using AdventOfCode2018.Inputs;
