@@ -8,14 +8,17 @@ namespace AdventOfCode2018.Day07
     {
         public char Id { get; }
         public ISet<Step> Dependencies { get; }
-        public bool CanComplete => !IsComplete && (!Dependencies.HasAny() || Dependencies.All(x => x.IsComplete));
+        public bool CanComplete => !IsComplete && !IsBeingWorkedOn && (!Dependencies.HasAny() || Dependencies.All(x => x.IsComplete));
         public bool IsComplete { get; set; }
+        public bool IsBeingWorkedOn { get; set; }
+        public int Cost { get; }
 
         public Step(char id)
         {
             Id = id;
             Dependencies = new HashSet<Step>();
             IsComplete = false;
+            Cost = id - 'A' + 1;
         }
 
         public override bool Equals(object obj)

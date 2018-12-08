@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using AdventOfCode2018.Day07;
 using AdventOfCode2018.Inputs;
 using FluentAssertions;
@@ -22,7 +24,19 @@ namespace AdventOfCode2018.Tests.Solutions
             order.Should().Be("IJLFUVDACEHGRZPNKQWSBTMXOY");
         }
 
-        public const string Puzzle1Example =
+        [Fact]
+        public void Puzzle2_FindSecondsToCompleteWork()
+        {
+            const int workerCount = 5;
+            const int baseOperationCost = 60;
+            var set = new StepSet(Input.Day07Parse(Input.Day07));
+
+            var seconds = set.LengthOfParallelCompletion(workerCount, baseOperationCost, null);
+
+            seconds.Should().Be(1072);
+        }
+
+        public const string PuzzleExample =
 @"Step C must be finished before step A can begin.
 Step C must be finished before step F can begin.
 Step A must be finished before step B can begin.
@@ -32,9 +46,27 @@ Step D must be finished before step E can begin.
 Step F must be finished before step E can begin.";
 
         [Fact]
+        public void Puzzle2Example_CompletesWorkIn15Seconds()
+        {
+            Output.WriteLine("");
+            const int workerCount = 2;
+            const int baseOperationCost = 0;
+            var set = new StepSet(Input.Day07Parse(PuzzleExample));
+
+            var time = set.LengthOfParallelCompletion(workerCount, baseOperationCost, PrintProgress);
+
+            time.Should().Be(15);
+
+            void PrintProgress(int ticks, IEnumerable<(int workerId, char workingOn)> workerStatus, string completed)
+            {
+                Output.WriteLine($"{ticks:###00} | {workerStatus.Select(x => $"{x.workerId}: {x.workingOn}").JoinStrings(" ")} | {completed}");
+            }
+        }
+
+        [Fact]
         public void Puzzle1Example_FindsCorrectCompleteOrder()
         {
-            var set = new StepSet(Input.Day07Parse(Puzzle1Example));
+            var set = new StepSet(Input.Day07Parse(PuzzleExample));
 
             var order = set.OrderOfComplete();
 
@@ -44,7 +76,7 @@ Step F must be finished before step E can begin.";
         [Fact]
         public void Puzzle1Example_StepSet_ParsesStepsAndDependenciesCorrectly()
         {
-            var set = new StepSet(Input.Day07Parse(Puzzle1Example));
+            var set = new StepSet(Input.Day07Parse(PuzzleExample));
 
             set.Steps.Should().HaveCount(6).And.ContainKeys('C', 'A', 'F', 'B', 'D', 'E');
             set.Steps['C'].Dependencies.Should().BeEmpty();

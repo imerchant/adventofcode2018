@@ -44,5 +44,48 @@ namespace AdventOfCode2018.Day07
 
             return order.ToString();
         }
+
+        public int LengthOfParallelCompletion(int workerCount, int baseOperationCost, Action<int, IEnumerable<(int workerId, char workingOn)>, string> progressDelegate)
+        {
+            var steps = Steps.Values.OrderBy(x => x.Id).ToList();
+            var workers = Enumerable.Range(0, workerCount).Select(x => new Worker(x + 1, baseOperationCost)).ToList();
+            var ticks = -1;
+            var completed = new StringBuilder();
+
+            do
+            {
+                ticks++;
+                // reset workers that are finished, mark finished steps
+                foreach (var worker in workers.Where(x => x.IsDone))
+                {
+                    worker.WorkingOn.IsComplete = true;
+                    completed.Append(worker.WorkingOn.Id);
+                    worker.Reset();
+                }
+
+                // start new operations
+                var idleWorkers = workers.Where(x => x.IsIdle).ToList();
+                var canStart = steps.Where(x => x.CanComplete).ToList();
+                if (idleWorkers.Any() && canStart.Any())
+                {
+                    for (var k = 0; k < idleWorkers.Count && k < canStart.Count; ++k)
+                    {
+                        idleWorkers[k].WorkOn(canStart[k]);
+                    }
+                }
+
+                // tick all in-progress workers
+                foreach (var worker in workers.Where(x => !x.IsIdle))
+                {
+                    worker.Tick();
+                }
+
+                if (progressDelegate != null)
+                    progressDelegate(ticks, workers.Select(x => (x.Id, x.WorkingOn?.Id ?? '.')), completed.ToString());
+            }
+            while (!steps.All(x => x.IsComplete));
+
+            return ticks;
+        }
     }
 }
