@@ -12,7 +12,7 @@ namespace AdventOfCode2018.Tests.Solutions
         {
         }
 
-        [Fact(Skip = "takes forever")]
+        [Fact(Skip = "takes a while")]
         public void Puzzle1_CountRemainingUnits_AfterAllCollapseEvents()
         {
             var polymer = new Polymer(Input.Day05);
@@ -22,7 +22,7 @@ namespace AdventOfCode2018.Tests.Solutions
             collapsed.Should().HaveLength(9288);
         }
 
-        [Fact(Skip = "even with the parallel, takes forever")]
+        [Fact(Skip = "takes a while")]
         public void Puzzle2_ReduceUnits_AndFindShortestChain()
         {
             var polymer = new Polymer(Input.Day05);
@@ -53,17 +53,6 @@ namespace AdventOfCode2018.Tests.Solutions
             var actual = new Polymer(input).FindShortestPolymer();
 
             actual.Should().Be(expected);
-        }
-
-        [Theory]
-        [InlineData("aA", "")]
-        [InlineData("abBA", "aA")]
-        [InlineData("abAB", "abAB")]
-        [InlineData("aabAAB", "aabAAB")]
-        [InlineData("dabAcCaCBAcCcaDA", "dabAaCBAcCcaDA")]
-        public void Polymer_Collase_WithInput_CollapsesCorrectly(string input, string expectedOutput)
-        {
-            Polymer.Collapse(input).Should().Be(expectedOutput);
         }
 
         [Theory]

@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using MoreLinq;
@@ -15,44 +16,16 @@ namespace AdventOfCode2018.Day05
 
         public string Collapse()
         {
-            var current = Value;
-            string next = null;
-            do
+            var builder = new StringBuilder(Value);
+            for (var k = 0; k < builder.Length - 1;)
             {
-                current = next ?? current;
-                next = Collapse(current);
-            }
-            while (next != current);
-
-            return next;
-        }
-
-        public string FindShortestPolymer()
-        {
-            var units = Value.Select(x => char.ToLowerInvariant(x)).Distinct().ToList();
-
-            var variations = units
-                .AsParallel()
-                .Select(x => new Polymer(GetValue(x)).Collapse())
-                .ToList();
-
-            return variations.OrderBy(x => x.Length).First();
-
-            string GetValue(char ignoreType) => Value.Where(x => char.ToLowerInvariant(x) != ignoreType).AsString();
-        }
-
-        internal static string Collapse(string value)
-        {
-            var builder = new StringBuilder(value);
-            for (var k = 0; k < value.Length - 1;)
-            {
-                var first = value[k];
-                var second = value[k + 1];
+                var first = builder[k];
+                var second = builder[k + 1];
 
                 if (UnitsReact(first, second))
                 {
                     builder.Remove(k, 2);
-                    break;
+                    k = 0;
                 }
                 else
                 {
@@ -61,6 +34,21 @@ namespace AdventOfCode2018.Day05
             }
 
             return builder.ToString();
+        }
+
+        public string FindShortestPolymer()
+        {
+            var units = Value.Select(x => char.ToLowerInvariant(x)).Distinct().ToList();
+
+            var variations = new List<string>();
+            units
+                .AsParallel()
+                .Select(x => new Polymer(GetValue(x)).Collapse())
+                .ForAll(x => variations.Add(x));
+
+            return variations.OrderBy(x => x.Length).First();
+
+            string GetValue(char ignoreType) => Value.Where(x => char.ToLowerInvariant(x) != ignoreType).AsString();
         }
 
         internal static bool UnitsAreSameType(char first, char second)
