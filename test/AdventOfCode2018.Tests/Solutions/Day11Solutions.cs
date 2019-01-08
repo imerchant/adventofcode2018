@@ -1,3 +1,4 @@
+using System.IO;
 using AdventOfCode2018.Day11;
 using AdventOfCode2018.Inputs;
 using FluentAssertions;
@@ -20,6 +21,11 @@ namespace AdventOfCode2018.Tests.Solutions
             var (x, y, _) = grid.FindHighestPower3x3();
 
             (x, y).Should().Be((235,38));
+
+            // var sums = grid.GetSumTable();
+            // File.WriteAllText(@"C:\projects\adventofcode\2018\sumtable.txt", sums);
+            // var sums = grid.GetPowers();
+            // File.WriteAllText(@"C:\projects\adventofcode\2018\power.txt", sums);
         }
 
         [Theory]
