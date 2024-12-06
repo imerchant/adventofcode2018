@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MoreLinq;
 
 namespace AdventOfCode2018.Day05
 {

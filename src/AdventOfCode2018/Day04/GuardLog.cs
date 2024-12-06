@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using MoreLinq;
 
 namespace AdventOfCode2018.Day04
 {
@@ -112,7 +111,7 @@ namespace AdventOfCode2018.Day04
             if (!minutesAsleep.Any())
                 return (0, 0);
 
-            var maxMinute = minutesAsleep.MaxBy(x => x.Value).First();
+            var maxMinute = minutesAsleep.MaxBy(x => x.Value);
 
             return (maxMinute.Key, maxMinute.Value);
         }

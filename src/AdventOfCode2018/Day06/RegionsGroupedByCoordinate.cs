@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MoreLinq;
 
 namespace AdventOfCode2018.Day06
 {
@@ -42,15 +41,8 @@ namespace AdventOfCode2018.Day06
                     if (Map.TryGetValue((x, y), out _))
                         continue;
 
-                    var closest = Coordinates.MinBy(c => c.DistanceFrom(x, y)).ToList();
-                    if (closest.Count > 1)
-                    {
-                        Map[(x, y)] = -1;
-                    }
-                    else
-                    {
-                        Map[(x, y)] = closest.Single().Id;
-                    }
+                    var closest = Coordinates.MinBy(c => c.DistanceFrom(x, y));
+                    Map[(x, y)] = closest.Id;
 
                     if (y == _topmost || y == _bottommost - 1 || x == _leftmost || x == _rightmost - 1)
                         Outside.Add(Map[(x, y)]);

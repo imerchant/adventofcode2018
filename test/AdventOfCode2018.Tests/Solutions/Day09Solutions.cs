@@ -2,7 +2,6 @@ using System.Linq;
 using AdventOfCode2018.Day09;
 using AdventOfCode2018.Inputs;
 using FluentAssertions;
-using MoreLinq;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -60,7 +59,7 @@ namespace AdventOfCode2018.Tests.Solutions
             game.Play();
 
             game.Current.Value.Should().Be(25);
-            var maxPlayer = game.Players.MaxBy(x => x.Score).Single();
+            var maxPlayer = game.Players.MaxBy(x => x.Score);
             maxPlayer.Id.Should().Be(5);
             maxPlayer.Score.Should().Be(32);
         }

@@ -12,7 +12,7 @@ namespace AdventOfCode2018.Tests.Solutions
         {
         }
 
-        [Fact(Skip = "takes a while")]
+        [Fact]
         public void Puzzle1_CountRemainingUnits_AfterAllCollapseEvents()
         {
             var polymer = new Polymer(Input.Day05);
@@ -22,7 +22,7 @@ namespace AdventOfCode2018.Tests.Solutions
             collapsed.Should().HaveLength(9288);
         }
 
-        [Fact(Skip = "takes a while")]
+        [Fact]
         public void Puzzle2_ReduceUnits_AndFindShortestChain()
         {
             var polymer = new Polymer(Input.Day05);
